@@ -5,7 +5,6 @@ from django.shortcuts import render
 # Create your views here.
 from user.models import User
 
-
 def joinform(request):
     return render(request, 'user/joinform.html')
 
