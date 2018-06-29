@@ -5,7 +5,7 @@ from django.shortcuts import render
 from guestbook.models import Guestbook
 
 
-def index(request):
+def guestbook(request):
     guestbook_list = Guestbook.objects.all().order_by('-regdate')
     print(guestbook_list)
     context = {'guestbook_list' : guestbook_list}
