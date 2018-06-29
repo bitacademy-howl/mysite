@@ -18,7 +18,7 @@ def logout(request):
     pass
 
 def guestbook(request):
-    return render(request, 'guestbook.list.html')
+    return render(request, 'guestbook/list.html')
 
 def board(request):
-    return render(request, 'board.list.html')
+    return render(request, 'board/list.html')
