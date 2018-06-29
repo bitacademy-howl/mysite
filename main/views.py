@@ -16,6 +16,3 @@ def modify(request):
 
 def logout(request):
     pass
-
-def board(request):
-    return render(request, 'board/list.html')
