@@ -5,7 +5,8 @@ class User(models.Model):
     name = models.CharField(max_length=30)
     password = models.CharField(max_length=30)
     email = models.CharField(max_length=200)
-    sex = models.CharField(max_length=10)
+    gender = models.CharField(max_length=10)
+    # gender 로 바꿀것 어감이 않좋아..
 
     def __str__(self):
-        return 'User(%s, %s, %s, %s) % (self.name, self.password, self.email, self.sex)'
+        return 'User(%s, %s, %s)' % (self.name, self.email, self.gender)
