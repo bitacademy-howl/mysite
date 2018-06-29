@@ -14,6 +14,9 @@ def viewform(request):
 def writeform(request):
 
     # 인증 체크
-    if request.session['authuser'] is None:
+
+    print(request.session['authuser'], type(request.session['authuser']))
+
+    if request.session.hasKey['authuser']:
         return HttpResponseRedirect('/user/loginform')
     return render(request, 'board/write.html')

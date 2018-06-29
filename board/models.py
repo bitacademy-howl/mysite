@@ -12,7 +12,9 @@ class Board(models.Model):
     content = models.CharField(max_length=2000)
     hit = models.IntegerField(default=0)
     regdate = models.DateTimeField
-    # user = models.ForeignKey(User, on_delete=models.SET_NULL())
+
+    # user = models.ForeignKey(User, on_delete=models.SET_NULL)
+
     user = models.ForeignKey(User, on_delete = models.CASCADE)
 
     def __str__(self):
