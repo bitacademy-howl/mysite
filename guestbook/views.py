@@ -24,12 +24,14 @@ def add (request):
 
 def deleteform(request):
     id = request.GET['id']
+    print(id)
     id = {'id' : id}
     return render(request, 'guestbook/deleteform.html', id)
 
 def delete(request):
     if request.POST['a'] == 'delete':
-        id = request.POST['id']
+        id = request.POST['no']
+        print(id)
         password = request.POST['password']
         Guestbook.objects.filter(id=id).filter(password=password).delete()
 
