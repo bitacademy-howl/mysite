@@ -31,8 +31,12 @@ def writeform(request):
     # 혹은 위의 코드를 사용하도록 하자
 
     # print(request.session['authuser'], type(request.session['authuser']))
-    #
-    # if request.session['authuser'] is None:
+    # try:
+    #     if request.session['authuser'] is None:
+    #         return HttpResponseRedirect('/user/loginform')
+    #     else:
+    #         return render(request, 'board/write.html')
+    # except KeyError as kE:
     #     return HttpResponseRedirect('/user/loginform')
 
     return render(request, 'board/write.html')
