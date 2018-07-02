@@ -1,4 +1,5 @@
 {% extends "../base.html" %}
+{% load mathfilters %}
 
 {% block css_link %}
 <link href="/assets/css/board.css" rel="stylesheet" type="text/css">
@@ -6,11 +7,11 @@
 
 {% block content %}
 <div id="board">
-	<form id="search_form" action="" method="post">
+	<form id="search_form" action="" method="post">{% csrf_token %}
+		<!--/board/find-->
 		<input type="text" id="kwd" name="kwd" value="">
 		<input type="submit" value="찾기">
 	</form>
-
 
 	<table class="tbl-ex">
 		<tr>
@@ -24,18 +25,19 @@
 
 		{% for posts in posts_list %}
 		<tr>
-			<td>3</td>
-			<td><a href="">세 번째 글입니다.</a></td>
-			<td>안대혁</td>
-			<td>3</td>
-			<td>2015-10-11 12:04:20</td>
+			<td>{{ posts_list.count | add:1 | sub:forloop.counter }}</td>
+			<td><a href="/board/view?id={{posts.id}}">{{ posts.title }}</a></td>
+			<td>{{ posts.user.name }}</td>
+			<td>{{ posts.hit }}</td>
+			<td>{{ posts.regdate|date:'Y-m-d H:i:s' }}</td>
 			<td><a href="" class="del">삭제</a></td>
+			<!--/board/delete?id={{posts.id}}-->
 		</tr>
 		{% endfor %}
 
 	</table>
 	<div class="bottom">
-		<a href="/board/write" id="new-book">글쓰기</a>
+		<a href="/board/writeform" id="new-book">글쓰기</a>
 	</div>
 </div>
 {% endblock %}

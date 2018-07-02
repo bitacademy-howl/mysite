@@ -29,8 +29,14 @@
 			<input id="agree-prov" type="checkbox" name="agreeProv" value="y">
 			<label>서비스 약관에 동의합니다.</label>
 		</fieldset>
-					
+
 		<input type="submit" value="가입하기">
+
+		{% if request.GET.result == 'false' %}
+		<p>
+			이미 가입된 email 입니다. 다른 email을 입력해 주세요.
+		</p>
+		{% endif %}
 					
 	</form>
 </div>

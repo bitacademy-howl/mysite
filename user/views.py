@@ -18,18 +18,18 @@ def join(request):
     user.password = request.POST['password']
     user.gender = request.POST['gender']
 
-    user.save()
+    if User.objects.get(email = user.email) != None:
+        return HttpResponseRedirect('/user/joinform?result=false')
 
-    return HttpResponseRedirect('/user/joinsuccess')
+    else:
+        user.save()
+        return HttpResponseRedirect('/user/joinsuccess')
 
 def loginform(request):
     return render(request, 'user/loginform.html')
 
 def login(request):
     result = User.objects.filter(email=request.POST['email']).filter(password=request.POST['password'])
-
-    print(request, type(request))
-
     # 로그인 실패
     if len(result) == 0:
         return HttpResponseRedirect('/user/loginform?result=false')
@@ -37,6 +37,7 @@ def login(request):
     # 로그인 처리
     authuser = result[0]
     request.session['authuser'] = model_to_dict(authuser)
+    print(request.session['authuser'])
 
     # 텍스트를 그냥 출력해주는방법
     # return HttpResponse(authuser)

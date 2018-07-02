@@ -2,14 +2,19 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
+from board.models import Board
+from user.models import User
+
+
 def board(request):
-    return render(request, 'board/list.html')
+
+    posts_list = Board.objects.all().order_by('-regdate')
+    posts_list = {'posts_list': posts_list}
+    return render(request, 'board/list.html', posts_list)
+
 
 def modifyform(request):
     return render(request, 'board/modify.html')
-
-def viewform(request):
-    return render(request, 'board/view.html')
 
 def writeform(request):
 
@@ -40,3 +45,29 @@ def writeform(request):
     #     return HttpResponseRedirect('/user/loginform')
 
     return render(request, 'board/write.html')
+
+def write(request):
+    board = Board()
+    board.title = request.POST['title']
+    board.content = request.POST['content']
+
+
+    # 아래부분은 수정해야 할 사항으로############################################################################################################
+    # 현재는 이메일과 패스워드로 비교하여 쿼리셋의 첫번째 user를 선택하도록 정하고 테스트 하였지만.
+    # 실제로는 email을 primary 키로, 혹은 같은 이메일은 등록이 불가하도록 정의하는 로직이 필요하며,
+    # 이는 user 객체의 VO 를 재정의 하던지, 유저 등록 시 action 을 재정의 하던지 하여 해결하도록 할 것!
+    board.user = (User.objects.filter(email = request.session.get('authuser')['email']).filter(password = request.session.get('authuser')['password']))[0]
+    #############################################################################################################################################
+
+    board.save()
+
+    return HttpResponseRedirect('/board')
+
+def view(request):
+    # 게시판에서 id는 primary key, 즉 unique 하므로 장고 쿼리셋의 get 메서드를 사용하여 얻어오도록하자.
+    # 자세한 내용 https://docs.djangoproject.com/en/2.0/topics/db/queries/ 참고
+    posts_obj = Board.objects.get(id=request.GET['id'])
+    print(posts_obj, type(posts_obj))
+    posts_dict = {'posts': posts_obj}
+    return render(request, 'board/view.html', posts_dict)
+
