@@ -26,6 +26,7 @@ def delete(request):
         current_posts = Board.objects.filter(id = id)
         if current_posts.user.email == authuser_exist['email']:
             current_posts.delete()
+    return HttpResponseRedirect('/board')
 
 def writeform(request):
 
