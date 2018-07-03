@@ -16,6 +16,17 @@ def board(request):
 def modifyform(request):
     return render(request, 'board/modify.html')
 
+def delete(request):
+    id = request.GET['id']
+    # 1. post의 id 를 추출
+    # 2. 해당 포스트의 user를 현재 session 객체에 저장된 유저와 비교
+
+    authuser_exist = request.session.get('authuser')
+    if authuser_exist is not None:
+        current_posts = Board.objects.filter(id = id)
+        if current_posts.user.email == authuser_exist['email']:
+            current_posts.delete()
+
 def writeform(request):
 
     # 인증 체크

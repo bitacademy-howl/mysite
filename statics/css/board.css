@@ -124,10 +124,10 @@ a#new-book	 {
 	padding:10px 20px 11px 20px 
 }
 
-a.del	{
+.del {
 	display:block;
 	width:20px;
 	height:20px; 
-	background:url("/mysite/assets/images/recycle.png") no-repeat 0 0;
+	background:url('/assets/images/recycle.png') no-repeat 0 0;
 	font-size:0;
 }

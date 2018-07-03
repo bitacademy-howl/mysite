@@ -18,7 +18,9 @@ def join(request):
     user.password = request.POST['password']
     user.gender = request.POST['gender']
 
-    if User.objects.get(email = user.email) != None:
+    print(User.objects.filter(email=user.email), type(User.objects.filter(email=user.email)))
+
+    if len(User.objects.filter(email = user.email)) != 0:
         return HttpResponseRedirect('/user/joinform?result=false')
 
     else:
@@ -35,8 +37,17 @@ def login(request):
         return HttpResponseRedirect('/user/loginform?result=false')
 
     # 로그인 처리
-    authuser = result[0]
-    request.session['authuser'] = model_to_dict(authuser)
+    # authuser = result[0]
+
+    authuser = model_to_dict(result[0])
+
+    # 세션에 비밀번호 정보를 포함할 이유가 없으므로 인증이 되고 html 문서에 넘겨주는
+    # dictionary 에서는 뺄수 있다. 객체에서는 삭제가 불가능 하지...
+    # 그러나 해당 프로젝트에서 게시판에 따로 비밀번호를 쓰는 탭이 없으므로 그냥 사용하도록 한다.
+    # 위험성에 관하여는 Session Hijacking 참고....
+    # del authuser['password']
+
+    request.session['authuser'] = authuser
     print(request.session['authuser'])
 
     # 텍스트를 그냥 출력해주는방법

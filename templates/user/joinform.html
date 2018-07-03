@@ -33,8 +33,9 @@
 		<input type="submit" value="가입하기">
 
 		{% if request.GET.result == 'false' %}
-		<p>
-			이미 가입된 email 입니다. 다른 email을 입력해 주세요.
+		<p style="color:red;">
+			이미 가입된 email 입니다. <br>
+			다른 email을 입력해 주세요.
 		</p>
 		{% endif %}
 					

@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="D:\0. Bit_HOWL\2. codes\2. Python\A.My\mysite\venv"
+VIRTUAL_ENV="D:\Howl_Bit\2. codes\2. Python\A.My\3. web\mysite\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

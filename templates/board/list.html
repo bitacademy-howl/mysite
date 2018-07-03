@@ -30,8 +30,13 @@
 			<td>{{ posts.user.name }}</td>
 			<td>{{ posts.hit }}</td>
 			<td>{{ posts.regdate|date:'Y-m-d H:i:s' }}</td>
-			<td><a href="" class="del">삭제</a></td>
+			<td><a href="/board/delete?id={{posts.id}}" class="del">삭제</a></td>
 			<!--/board/delete?id={{posts.id}}-->
+			<!-- style="display:block;
+			width:20px;
+			height:20px;
+			background:url('/assets/images/recycle.png') no-repeat 0 0;
+			font-size:0;"-->
 		</tr>
 		{% endfor %}
 
