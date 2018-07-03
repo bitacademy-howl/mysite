@@ -1,4 +1,4 @@
-#!D:\Howl_Bit\2. codes\2. Python\A.My\3. web\mysite\venv\Scripts\python.exe
+#!D:\0. Bit_HOWL\2. codes\2. Python\A.My\mysite\venv\Scripts\python.exe
 from django.core import management
 
 if __name__ == "__main__":

@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set "VIRTUAL_ENV=D:\Howl_Bit\2. codes\2. Python\A.My\3. web\mysite\venv"
+set "VIRTUAL_ENV=D:\0. Bit_HOWL\2. codes\2. Python\A.My\mysite\venv"
 
 if not defined PROMPT (
     set "PROMPT=$P$G"
