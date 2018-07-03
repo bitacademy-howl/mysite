@@ -9,14 +9,15 @@
 
 	<form id="join-form" name="joinForm" method="post" action="/user/join">{% csrf_token %}
 		<label class="block-label" for="name">이름</label>
-		<input id="name" name="name" type="text" value="">
+		<input id="name" name="name" type="text" value="{{user.name}}">
 
 		<label class="block-label" for="email">이메일</label>
-		<input id="email" name="email" type="text" value="">
-		<input type="button" value="id 중복체크">
+		<input id="email" name="email" type="text" value="{{user.email}}">
+		<!-- 이 곳 js 나 별도의 방법을 통해 중복체크 구현할 것. 아래와 다르게....-->
+		<input type="button" value="id 중복체크" id="duplication_check" onclick="">
 					
 		<label class="block-label">패스워드</label>
-		<input name="password" type="password" value="">
+		<input name="password" type="password" value="{{user.password}}">
 					
 		<fieldset>
 			<legend>성별</legend>
@@ -29,16 +30,21 @@
 			<input id="agree-prov" type="checkbox" name="agreeProv" value="y">
 			<label>서비스 약관에 동의합니다.</label>
 		</fieldset>
-
+					
 		<input type="submit" value="가입하기">
-
-		{% if request.GET.result == 'false' %}
-		<p style="color:red;">
-			이미 가입된 email 입니다. <br>
-			다른 email을 입력해 주세요.
+		{% if email_availability is False %}
+		<p style = " color: red;">
+			해당 이메일은 이미 사용 중입니다.<br>
+			다른 이메일을 입력하세요.
+		</p>
+		{% endif %}
+		{% if email_availability is True %}
+		<p style = "color: black;">
+			해당 이메일은 사용 가능합니다.
 		</p>
 		{% endif %}
 					
 	</form>
 </div>
 {% endblock %}
+

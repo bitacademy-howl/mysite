@@ -1,8 +1,12 @@
 from django.forms import model_to_dict
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 
+from django.contrib import messages
+
 # Create your views here.
+from django.views import View
+
 from user.models import User
 
 def joinform(request):
@@ -12,20 +16,33 @@ def joinsuccess(request):
     return render(request, 'user/joinsuccess.html')
 
 def join(request):
+
     user = User()
     user.name = request.POST['name']
     user.email = request.POST['email']
     user.password = request.POST['password']
     user.gender = request.POST['gender']
 
-    print(User.objects.filter(email=user.email), type(User.objects.filter(email=user.email)))
-
-    if len(User.objects.filter(email = user.email)) != 0:
-        return HttpResponseRedirect('/user/joinform?result=false')
-
-    else:
+    if User.objects.filter(email = user.email).exists():
         user.save()
         return HttpResponseRedirect('/user/joinsuccess')
+
+    # 입력폼 비교 구문과 이에따른 메시지 생성을 별도의 함수내에 구현하고, 그 수행 결과에 따른 action 만을
+    # 본 함수에서 구현하도록 한다.
+
+    # 응답으로 되돌려줄 리턴 값은
+    # email_available, user의 폼 입력 값들, 응답할 메시지
+    # 세 가지로 한다.
+
+    # elif len(User.objects.filter(email = user.email)) == 0:
+    #     return render(request, 'user/joinform.html', {"email_availability": False, "user": user})
+    else:
+        return render(request, 'user/joinform.html', {"email_availability" : False, "user":user})
+
+# class DuplicationCheck(View):
+#     def duplicationCheck(self, request):
+#         selected_email = request.POST.get('email', None)
+#         print(User.objects.filter(email=selected_email).exists())
 
 def loginform(request):
     return render(request, 'user/loginform.html')
@@ -37,17 +54,8 @@ def login(request):
         return HttpResponseRedirect('/user/loginform?result=false')
 
     # 로그인 처리
-    # authuser = result[0]
-
-    authuser = model_to_dict(result[0])
-
-    # 세션에 비밀번호 정보를 포함할 이유가 없으므로 인증이 되고 html 문서에 넘겨주는
-    # dictionary 에서는 뺄수 있다. 객체에서는 삭제가 불가능 하지...
-    # 그러나 해당 프로젝트에서 게시판에 따로 비밀번호를 쓰는 탭이 없으므로 그냥 사용하도록 한다.
-    # 위험성에 관하여는 Session Hijacking 참고....
-    # del authuser['password']
-
-    request.session['authuser'] = authuser
+    authuser = result[0]
+    request.session['authuser'] = model_to_dict(authuser)
     print(request.session['authuser'])
 
     # 텍스트를 그냥 출력해주는방법

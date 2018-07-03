@@ -3,12 +3,7 @@
 
 #board { margin:20px auto;	width:550px; }
 
-
-#search_form {
-	width:100%;
-	margin:50px auto 20px auto; 
-	text-align:center; 	 
-}
+#search_form { width:100%; margin:50px auto 20px auto; text-align:center; }
 
 input[type="text"]	{
 	padding:5px; 
@@ -124,10 +119,10 @@ a#new-book	 {
 	padding:10px 20px 11px 20px 
 }
 
-.del {
+a.del	{
 	display:block;
 	width:20px;
-	height:20px; 
+	height:20px;
 	background:url('/assets/images/recycle.png') no-repeat 0 0;
 	font-size:0;
 }

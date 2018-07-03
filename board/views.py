@@ -16,18 +16,6 @@ def board(request):
 def modifyform(request):
     return render(request, 'board/modify.html')
 
-def delete(request):
-    id = request.GET['id']
-    # 1. post의 id 를 추출
-    # 2. 해당 포스트의 user를 현재 session 객체에 저장된 유저와 비교
-
-    authuser_exist = request.session.get('authuser')
-    if authuser_exist is not None:
-        current_posts = Board.objects.filter(id = id)
-        if current_posts.user.email == authuser_exist['email']:
-            current_posts.delete()
-    return HttpResponseRedirect('/board')
-
 def writeform(request):
 
     # 인증 체크
@@ -68,6 +56,7 @@ def write(request):
     # 현재는 이메일과 패스워드로 비교하여 쿼리셋의 첫번째 user를 선택하도록 정하고 테스트 하였지만.
     # 실제로는 email을 primary 키로, 혹은 같은 이메일은 등록이 불가하도록 정의하는 로직이 필요하며,
     # 이는 user 객체의 VO 를 재정의 하던지, 유저 등록 시 action 을 재정의 하던지 하여 해결하도록 할 것!
+    # 실제 primary Key 가 정의되면 objects.get 함수를 이용하여 해당 객체만 가져올 수 있음.
     board.user = (User.objects.filter(email = request.session.get('authuser')['email']).filter(password = request.session.get('authuser')['password']))[0]
     #############################################################################################################################################
 
@@ -79,7 +68,6 @@ def view(request):
     # 게시판에서 id는 primary key, 즉 unique 하므로 장고 쿼리셋의 get 메서드를 사용하여 얻어오도록하자.
     # 자세한 내용 https://docs.djangoproject.com/en/2.0/topics/db/queries/ 참고
     posts_obj = Board.objects.get(id=request.GET['id'])
-    print(posts_obj, type(posts_obj))
     posts_dict = {'posts': posts_obj}
     return render(request, 'board/view.html', posts_dict)
 
