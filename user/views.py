@@ -1,3 +1,4 @@
+from django.db import DataError
 from django.forms import model_to_dict
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
@@ -23,7 +24,7 @@ def join(request):
     user.password = request.POST['password']
     user.gender = request.POST['gender']
 
-    if User.objects.filter(email = user.email).exists():
+    if User.objects.filter(email = user.email).exists() is not True:
         user.save()
         return HttpResponseRedirect('/user/joinsuccess')
 
@@ -38,11 +39,6 @@ def join(request):
     #     return render(request, 'user/joinform.html', {"email_availability": False, "user": user})
     else:
         return render(request, 'user/joinform.html', {"email_availability" : False, "user":user})
-
-# class DuplicationCheck(View):
-#     def duplicationCheck(self, request):
-#         selected_email = request.POST.get('email', None)
-#         print(User.objects.filter(email=selected_email).exists())
 
 def loginform(request):
     return render(request, 'user/loginform.html')
@@ -92,4 +88,24 @@ def logout(request):
     return HttpResponseRedirect('/')
     
 def modifyform(request):
-    pass
+    user = request.session.get('authuser')
+    if user is None:
+        return render(request, 'user/loginform.html')
+    else:
+        user_obj = User.objects.filter(email=user['email'])[0]
+        return render(request, 'user/modifyform.html', {'user' : user_obj})
+
+def modify(request):
+    user = request.session.get('authuser')
+    if user is not None:
+        user_obj = User.objects.filter(email=user['email'])[0]
+        user_obj.name = request.POST['name']
+        user_obj.password = request.POST['password']
+        user_obj.gender = request.POST['gender']
+        try:
+            user_obj.save()
+            return HttpResponseRedirect('/')
+        except DataError:
+            return render(request, 'user/modifyform.html', {'user': user_obj, 'data_error': True})
+    else:
+        return render(request, 'user/loginform.html')

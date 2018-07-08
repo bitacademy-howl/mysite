@@ -7,18 +7,18 @@
 {% block content %}
 <div id="user">
 
-	<form id="join-form" name="joinForm" method="post" action="/user/join">{% csrf_token %}
+	<form id="join-form" name="joinForm" method="post" action="/user/modify">{% csrf_token %}
 		<label class="block-label" for="name">이름</label>
 		<input id="name" name="name" type="text" value="{{user.name}}">
 
 		<label class="block-label" for="email">이메일</label>
-		<input id="email" name="email" type="text" value="{{user.email}}">
+		<input id="email" name="email" type="text" value="{{user.email}}" disabled>
 
-		<!-- 이 곳 js 나 별도의 방법을 통해 중복체크 구현할 것. with JS or Jquery...-->
+		<!-- 이 곳 js 나 별도의 방법을 통해 중복체크 구현할 것. with JS Jquery...-->
 		<input type="button" value="id 중복체크" id="duplication_check">
 					
 		<label class="block-label">패스워드</label>
-		<input name="password" type="password" value="{{user.password}}">
+		<input name="password" type="password" value="">
 					
 		<fieldset>
 			<legend>성별</legend>
@@ -32,8 +32,13 @@
 			<label>서비스 약관에 동의합니다.</label>
 		</fieldset>
 					
-		<input type="submit" value="가입하기">
-		{% if email_availability is False %}
+		<input type="submit" value="수정하기">
+		{% if data_error is True %}
+		<p style = " color: red;">
+			입력가능한 범위 초과
+		</p>
+		{% endif %}
+		{% if pass_fault is False %}
 		<p id='check_result'style = " color: red;">
 			해당 이메일은 이미 사용 중입니다.<br>
 			다른 이메일을 입력하세요.

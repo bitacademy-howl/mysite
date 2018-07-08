@@ -1,4 +1,5 @@
 {% extends "../base.html" %}
+{% load mathfilters %}
 
 {% block css_link %}
 <link href="/assets/css/board.css" rel="stylesheet" type="text/css">
@@ -14,19 +15,23 @@
 			</tr>
 			<tr>
 				<td class="label">제목</td>
-				<td><input type="text" name="title" value=""></td>
+				<td><input type="text" name="title" value="{{posts.title}}"></td>
 			</tr>
 			<tr>
 				<td class="label">내용</td>
 				<td>
-					<textarea id="content" name="content"></textarea>
+					<textarea id="content" name="content">{{posts.content}}</textarea>
 				</td>
 			</tr>
 		</table>
+		{% if data_error is True %}
+			<p style = "color: red;"> 제목 및 내용이 입력가능한 범위를 초과했습니다.</p>
+		{% endif %}
 		<div class="bottom">
 			<a href="/board">취소</a>
 			<input type="submit" value="등록">
 		</div>
 	</form>
 </div>
+
 {% endblock %}

@@ -30,13 +30,35 @@
 			<td>{{ posts.user.name }}</td>
 			<td>{{ posts.hit }}</td>
 			<td>{{ posts.regdate|date:'Y-m-d H:i:s' }}</td>
-			<td><a href="" class="del">삭제</a></td>
-			<!--/board/delete?id={{posts.id}}-->
+			{% if request.session.authuser.email == posts.user.email %}
+				<td><a href="/board/delete?id={{posts.id}}" class="del">삭제</a></td>
+			{% else %}
+				<td><a class="del">삭제</a></td>
+			{% endif %}
+
 		</tr>
 		{% endfor %}
-
 	</table>
-	<div class="bottom">
+	<div class="bottom" align="center">
+		{% if start_index != 1 %}
+			<a class="paging" href="/board?pageNum={{start_index | sub:1}}">[이전]</a>
+		{% else %}
+			<a class="muted">[이전]</a>
+		{% endif %}
+
+		{% for i in bottomPages %}
+			{% if i == pageNum %}
+				<a class="active">{{i }}</a>
+			{% else %}
+				<a class="not_active" href="/board?pageNum={{i }}">{{i }}</a>
+			{% endif %}
+		{% endfor %}
+
+		{% if end_index < totalPageCount %}
+			<a href="/board?pageNum={{end_index | add:1}}">[다음]</a>
+		{% else %}
+			<a class="muted">[다음]</a>
+		{% endif %}
 		<a href="/board/writeform" id="new-book">글쓰기</a>
 	</div>
 </div>

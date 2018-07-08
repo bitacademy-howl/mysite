@@ -10,13 +10,13 @@
 <body>
 	<div id="container">
 		<div id="header">
-			<h1><a href="/">MySite</a></h1>
+			<h1>MySite</h1>
 			<ul>
 				{% if request.session.authuser is None %}
 				<li><a href="/user/loginform">로그인</a><li>
 				<li><a href="/user/joinform">회원가입</a><li>
 				{% else %}
-				<li><a href="/user/modify">회원정보수정</a><li>
+				<li><a href="/user/modifyform">회원정보수정</a><li>
 				<li><a href="/user/logout">로그아웃</a><li>
 				<li>{{ request.session.authuser.name }}님 안녕하세요 ^^;</li>
 				{% endif %}
@@ -31,7 +31,7 @@
 		</div>
 		<div id="navigation">
 			<ul>
-				<li><a href="/">안대혁</a></li>
+				<li><a href="/">이희웅</a></li>
 				<li><a href="/guestbook">방명록</a></li>
 				<li><a href="/board">게시판</a></li>
 			</ul>
